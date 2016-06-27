@@ -10,6 +10,8 @@ function getWinners(vote) {
 	else                       return [a, b];
 }
 
+export const INITIAL_STATE = Map();
+
 export function setEntries (currentState, entries) {
 	return currentState.set('entries', List(entries));
 }
@@ -23,17 +25,17 @@ export function next (currentState) {
 							.remove('entries')
 							.set('winner', entries.first());
 	}
-	
+
 	return currentState.merge({
     	vote: Map({pair: entries.take(2)}),
    		entries: entries.skip(2)
   	});
 }
 
-export function vote (currentState, entry) {
-	return currentState.updateIn(
-		['vote', 'tally', entry],
-		0,
-		tally => tally + 1
-	);
+export function vote(voteState, entry) {
+  return voteState.updateIn(
+    ['tally', entry],
+    0,
+    tally => tally + 1
+  );
 }
